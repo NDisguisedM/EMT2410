@@ -1,0 +1,124 @@
+//============================================================================
+// Name        : Lab4FinalVersion.cpp
+// Author      : Nikolai Markov
+// Version     : V 1.0
+// Copyright   : GPL V2
+// Description : Lab 4
+//============================================================================
+
+#include <iostream>
+using namespace std;
+
+//---FUNCTION DECLARATIONS-----------------------------------------------------------------------//
+
+int findMin(float[]);                // Find Maximum function declaration
+int findMax(float[]);                 // Find Minimum function declaration
+//Thanks to a c++ forum post, "float[]" makes the functions work, cuz the parameter is an array
+int swout(int, int, int);             //Switch Output function declaration
+
+//---/////////////////////////////////////////////////////////////////////////////////////////---//
+
+#include <iostream>
+using namespace std;
+
+int main() 
+{
+  //---Declaration of Pointers---//
+  float *AddressOfNumbersPtr = new float;
+  float *UserInputNumbersPtr = new float;
+  *AddressOfNumbersPtr = 0;
+  *UserInputNumbersPtr = 0;
+  
+  //---Memory Validation---//
+  if (!AddressOfNumbersPtr)
+  {
+    cout << "AddressOfNumbersPtr failed" << endl;
+  }
+  if (!UserInputNumbersPtr)
+  {
+    cout << "UserInputNumbersPtr failed" << endl;
+  }
+  //---Taking in the first number---//  
+  AddressOfNumbersPtr = UserInputNumbersPtr; 
+  int count1 = 0; //declared counter count1
+  cin >> *UserInputNumbersPtr; //take in user input
+  
+  //---
+  while ( *UserInputNumbersPtr != 9999999 )
+  {
+    count1++; //increase counter by 1
+    UserInputNumbersPtr++; //move the pointer to the next 4 bytes
+    cin >> *UserInputNumbersPtr; //take in the next number
+  }
+
+  cout << "\n\n\nHow many valid numbers being entered: " << count1 << endl; 
+  cout << "Entered numbers are: " << endl; 
+  ////
+  for (int j = 0; j < count1; j++)
+  {
+    cout << "\nAddress: " << &UserInputNumbersPtr[j] << endl;
+    cout <<  "Number: " << AddressOfNumbersPtr[j] << endl;
+  }
+  //---Function declarations and calls---//
+  float FindAverage(float*, int); //Finding the avg number
+  float averageNumber = FindAverage(AddressOfNumbersPtr, count1); //FindAverage call
+  cout << "\n\n\nThe average number was: " << averageNumber << endl; //printing avg num
+  //// 
+  int FindMin(float*, int); //Finding the min number
+  int Min = FindMin(AddressOfNumbersPtr, count1); //FindMin call
+  cout << "\nThe minumum number was: " << Min << endl; //printing min
+  ////
+  float FindMax(float*, int); //Finding the max number
+  float Max = FindMax(AddressOfNumbersPtr, count1); //FindMax call
+  cout << "\nThe maximum number was: " << Max << endl; //printing Max
+  ////
+  //---/////////////
+  cout << "returning 0" << endl; //repl.it doesn't return "<terminated> exit code 0" in the console, so this message does that instead
+  return 0;
+}
+
+
+
+/////---Function Definitions---/////
+//---FindAverage---//
+float FindAverage(float *AddressOfNumbersPtr, int count1)
+{
+  float sumOfNumbers;
+  float avgOfNumbers;
+  for (int i = 0; i < count1; i++)
+  {
+    sumOfNumbers += AddressOfNumbersPtr[i];
+  }
+  avgOfNumbers = sumOfNumbers / count1;
+  return avgOfNumbers;
+}
+/////////////////
+//---FindMin---//
+int FindMin(float *AddressOfNumbersPtr, int count1)
+{
+  int Min; 
+  for (int i=0; i < count1; i++)
+    {
+      if(AddressOfNumbersPtr[i] < Min)
+      {
+        Min = AddressOfNumbersPtr[i];
+      }
+    }
+  
+  return Min;
+}
+/////////////////
+//---FindMax---//
+float FindMax(float *AddressOfNumbersPtr, int count1)
+{
+  float Max;
+  for (int i=0; i < count1; i++)
+    {
+      if(AddressOfNumbersPtr[i] > Max)
+      {
+        Max = AddressOfNumbersPtr[i];
+      }
+    }
+  return Max;
+}
+/////////////////
