@@ -1,94 +1,79 @@
 //============================================================================
 // Name        : Lab4AFinalVersion.cpp
 // Author      : Nikolai Markov
-// Version     : V 2.6
+// Version     : V 2.7
 // Copyright   : GPL V2
 // Description : Lab 4A
 //============================================================================
 #include <iostream>
-#include <string>
+#include<string>
 using namespace std;
-int main() 
-{
-  string StudentNames[5];             //storing user entered names
-  char *FirstNamePtr = nullptr;       //nullptr for security reasons
-  char *LastNamePtr = nullptr;        //nullptr for security reasons
-  string Firstnames[5], LastNames[5]; //strings to use for first/last name separation
-  int NameLenghts[5];                 //store lengths of the names
-  
-  string FirstNameStorageArray[5];    //storage string for First names
-  string LastNameStorageArray[5];     //storage string for last names
-  
-  cout << "Enter 5 students' names" << endl; //instruct user
-  for(int i = 0; i < 5; i++)          //input names
+
+int main(){
+    string StudentNames[5];        //storage for student names
+    char* FirstNamePtr = nullptr;  //pointer for sorting first names
+    char* LastNamePtr = nullptr;   //pointer for sorting last names
+    string FirstNameStorageArray[5], LastNameStorageArray[5]; //strings to use for finrst/last name separation
+    int NameLengths[5];            //store lenghts of names
+    cout << "Enter 5 student's names (First name, then last name):" << endl;
+    
+  for(int i=0; i<5; i++)
     {
-      getline(cin, StudentNames[i]);  //getting 5 student names
+      getline(cin, StudentNames[i]);
+    }
+  
+    for(int i=0; i<5; i++){
+        cout << StudentNames[i] << endl; //print names
+    }
+
+    for(int i=0; i<5; i++){
+        NameLengths[i] = StudentNames[i].length(); //get length of names
     }
     
-  
-  cout << "\n\n";                     //adding spacing for readablility
-  
-  for(int i = 0; i < 5; i++)          //print names
-    {
-      cout << *(StudentNames+i) << endl;
-    }
-  
-  for(int i = 0; i < 5; i++)          //get name lengths
-    {
-      NameLenghts[i]= StudentNames[i].length();
-    }
-  
-    cout << "\n\n";                   //adding spacing for readablility, again
-  
-  for(int i = 0; i < 5; i++)
+  for(int i=0; i<5; i++)
   {
-      FirstNamePtr = (char *) StudentNames[i].c_str();
-      cout << "The " << i+1 << "th student's full name is: " << FirstNamePtr << endl;
-    
-  
-  
-    for(int j = 0; j < NameLenghts[i]; j++) //separation
-      {
-        if( *(FirstNamePtr+j) == ' ') // if there's an empty space
-        {
-          FirstNamePtr[j] = '\0';    //insert a \0, which marks the end of the string
-          LastNamePtr = &(FirstNamePtr[j+1]); //make lastnameptr point to the place after the \0
+    FirstNamePtr = (char *) StudentNames[i].c_str();
+    cout << "The " << i+1 << "th student's full name is: " << FirstNamePtr << endl;
+    for(int j=0; j<NameLengths[i]; j++)
+    { 
+      
+      if(*(FirstNamePtr+j) == ' ')
+      {    
+        FirstNamePtr[j] = '\0';   
+        LastNamePtr = &(FirstNamePtr[j+1]); 
         }
       }
-  
-    for(int i = 0; i < 5; i++)
-      {
-        FirstNameStorageArray[i] = FirstNamePtr; //storing the extracted first and last names in a string array
-        LastNameStorageArray[i] = LastNamePtr;
-       
-      }
-
+    cout << FirstNamePtr << " " << LastNamePtr << endl;
+    FirstNameStorageArray[i] = FirstNamePtr;
+    LastNameStorageArray[i] = LastNamePtr;
+    cout << "The " << i+1 << "th student's first name is: " << FirstNameStorageArray[i] << endl;
+    cout << "The " << i+1 << "th student's last name is: " << LastNameStorageArray[i] << endl;
+    }
     
-    cout << FirstNameStorageArray[i] << endl; 
-    cout << LastNameStorageArray[i] << endl << "\n\n";
-  }
-
-    void sortNamesByAlphabet(string*, string*); //declare
-    sortNamesByAlphabet(FirstNameStorageArray, LastNameStorageArray);//call
-     for(int i=0; i<5; i++)          //cout all names in alphabetic by last name order
-     {
-        cout<<FirstNameStorageArray[i]<<" "<<LastNameStorageArray[i]<<endl;
-      }
+  void sortNamesByAlphabet(string*, string*);
+    
+  sortNamesByAlphabet(FirstNameStorageArray, LastNameStorageArray);
+   
+  cout << "\nSort by Last name are: " << endl;
+    
+  for(int i=0; i<5; i++)
+    {
+        cout << FirstNameStorageArray[i] << " " << LastNameStorageArray[i] << endl;
+    }
+  
     return 0;
 }
-
-void sortNamesByAlphabet(string FirstNameStorageArray[], string LastNameStorageArray[]) //exchanger = C, ____[i] = A, ____[j] = B
+void sortNamesByAlphabet(string FirstNameStorageArray[], string LastNameStorageArray[]) 
 {
-  for(int i=0; i<5; i++)             //makes i = the first member. 
+  for(int i=0; i<5; i++)
   {
-    for(int j=i+1; j<5; j++)         //makes j = the next memeber
+    for(int j=i+1; j<5; j++)
     {
-      if(LastNameStorageArray[i]>LastNameStorageArray[j]) //if the ASCII code of A is bigger than that of B: change them places
+      if(LastNameStorageArray[i]>LastNameStorageArray[j]) //compare ASCII codes and replace
       {
-        string exchanger =LastNameStorageArray[i];  //this was in hw1, switches A and B places by using C as a temporary storage
-        LastNameStorageArray[i] = LastNameStorageArray[j];  
+        string exchanger = LastNameStorageArray[i]; 
+        LastNameStorageArray[i] = LastNameStorageArray[j];
         LastNameStorageArray[j] = exchanger;
-        
         exchanger = FirstNameStorageArray[i];
         FirstNameStorageArray[i] = FirstNameStorageArray[j];
         FirstNameStorageArray[j] = exchanger;
