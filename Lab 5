@@ -1,0 +1,103 @@
+//============================================================================
+// Name        : Lab5FinalVersion.cpp
+// Author      : Nikolai Markov
+// Version     : V 1.2
+// Copyright   : GPL V2
+// Description : Lab 5
+//============================================================================
+
+#include <iostream>
+using namespace std;
+
+class LED
+{
+//by default, class members are considered private
+  int pinNumber;
+  float brightness = 1;
+  int timeDuration = 1;
+///
+  public:
+  LED(int pinNumber)
+  {
+    int numberOfPin = pinNumber;
+    timeDuration = 1;  //infinitely
+    brightness = 1.00; //100%
+  }
+
+  void turnOn(int pinNumber)
+  {
+    int numberOfPin = pinNumber;
+    timeDuration = 1;  //infinitely
+    brightness = 1.00; //100%
+   
+    cout << "Turning on LED at pin#: " << numberOfPin << "\nin brightness of: " << brightness << "\nfor amount of: ∞ seconds\n";
+    
+  }
+  void turnOn(int pinNumber, float brightness)
+  {
+    int numberOfPin = pinNumber;
+    timeDuration = 1;  //infinitely
+    //brightness is passed along, no variable necessary
+    cout << "Turning on LED at pin#: " << numberOfPin << "\nin brightness of: " << brightness << "\nfor amount of: " << timeDuration << " seconds\n";
+  }
+  void turnOn(int pinNumber, float brightness, int timeDuration)
+  {
+    int numberOfPin = pinNumber;
+    //both brightness and timeDuration are passed along, no need for extra variables
+    cout << "Turning on LED at pin#: " << numberOfPin << "\nin brightness of: " << brightness << "\nfor amount of: " << timeDuration << " seconds\n";
+  }
+  void turnOff(int pinNumber)
+  {
+    int numberOfPin = pinNumber;
+    timeDuration = 0; //turning off immediately
+    brightness = 0;   //when turning off, brightness becomes 0
+    cout << "Turning off LED at pin#: " << numberOfPin;
+  }
+/////////////////
+  float get_brightness(float brightness)
+  {
+    return brightness;
+  }
+  int get_pinNumber(int pinNumber)
+  {
+    return pinNumber;
+  }
+  int get_timeDuration(int timeDuration)
+  {
+    return timeDuration;
+  }
+/////////////////
+};
+
+
+
+
+int main() {
+  int userInput;
+  float brightnessPercent;
+  int timeDurationSeconds;
+  float userInputArray[3];
+  cout << "user input, enter 3 numbers separated with Enter key" << endl;
+  cout << "Enter 0 for default value\n";
+  for(int i = 0; i < 3; i++)
+    {
+      
+      cin >> userInputArray[i];
+      
+      if(userInputArray[i] == 0)
+        {
+          userInputArray[i] = 1;
+        }
+    }
+  
+  LED *GreenLED = new LED(userInputArray[0]);
+  int Pin = GreenLED->get_pinNumber(userInputArray[0]);
+  float Brightness = GreenLED->get_brightness(userInputArray[1]);
+  int TimeDuration = GreenLED->get_timeDuration(userInputArray[2]);
+  
+  GreenLED->turnOn(userInputArray[0]); //calling the actual turn on function
+
+  delete GreenLED; //memory cleanup
+
+  return 0;
+}
